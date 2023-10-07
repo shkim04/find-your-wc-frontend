@@ -1,45 +1,45 @@
-interface Address {
+interface ToiletData {
+  id: number;
+  isPaid: boolean;
+  price: number;
+  reviews: ReviewData[];
+}
+
+interface AddressData {
   country: string;
   city: string;
   street: string;
   streetNumber: string;
 }
 
-interface Review {
+interface ReviewData {
   id: string;
   contributedBy: string;
   cleanliness: Float64Array;
   performance: Float64Array;
   description: string;
+  createdAt: Date;
 }
 
-interface UpdateReview {
-  id: string;
-  contributedBy: string;
-  password: string;
-  cleanliness?: Float64Array;
-  performance?: Float64Array;
-  description?: string;
-}
+import Review from './reviewCard';
 
-interface DeleteReview {
-  id: string;
-  // contributedBy: string;
-  // password: string;
-}
-
-async function getToilet(address: Address) {
+async function getToilet(address: AddressData): Promise<
+  | {
+      toilet: ToiletData;
+    }
+  | undefined
+> {
   try {
     const { country, city, street, streetNumber } = address;
     const res = await fetch('http://localhost:4000/graphql', {
       method: 'POST',
       body: JSON.stringify({
-        query: `{ toilet({
+        query: `{ toilet(
           country: "${country}", 
-          city: "${city}, 
-          street: "${street}, 
-          streetNumber: "${streetNumber}
-        }) {
+          city: "${city}", 
+          street: "${street}", 
+          streetNumber: "${streetNumber}"
+        ) {
           id
           price
           isPaid
@@ -49,6 +49,7 @@ async function getToilet(address: Address) {
             cleanliness
             performance
             description
+            createdAt
           }
         }}`,
       }),
@@ -69,97 +70,51 @@ async function getToilet(address: Address) {
   }
 }
 
-async function updateData(reviewData: UpdateReview) {
-  try {
-    const res = await fetch('http://localhost:4000/graphql', {
-      method: 'POST',
-      body: JSON.stringify({
-        query: `muation { updateReviewData({
-          id: "${reviewData.id}"
-          contributedBy: "${reviewData.contributedBy}", 
-        }) {
-          id
-          contributedBy
-          cleanliness
-          performance
-          description
-        }}`,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    if (!res.ok) {
-      throw new Error('Failed to update toilet data');
-    }
-
-    const dataObj = await res.json();
-    console.log(dataObj.data);
-  } catch (err) {
-    console.log('Error updateData func', err);
-  }
-}
-
-async function deleteData(deleteReviewData: DeleteReview) {
-  try {
-    const res = await fetch('http://localhost:4000/graphql', {
-      method: 'POST',
-      body: JSON.stringify({
-        query: `muation { deleteReviewData({
-          id: "${deleteReviewData.id}", 
-        }) {
-          id
-          contributedBy
-        }}`,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    if (!res.ok) {
-      throw new Error('Failed to delete toilet data');
-    }
-
-    const dataObj = await res.json();
-    console.log(dataObj.data);
-  } catch (err) {
-    console.log('Error deleteData func', err);
-  }
-}
-
-export default async function StreetNumber({ params }: { params: Address }) {
-  const { toilet } = await getToilet(params);
+export default async function StreetNumber({
+  params,
+}: {
+  params: AddressData;
+}) {
+  const result = await getToilet(params);
+  if (!result) return <div>Server Error. Try it again.</div>;
+  const toilet = result!.toilet;
   return (
     <main className='flex min-h-screen flex-col items-center justify-between p-24'>
       <div className='z-10 max-w-5xl flex-col w-full items-center justify-between font-mono text-sm lg:flex'>
-        <p className='w-full'>Price: {toilet.price}</p>
+        <div className='w-3/5 bg-white dark:bg-gray-900 py-2 lg:py-4'>
+          <div className='max-w-2xl mx-auto px-4'>
+            <div className='flex justify-between items-center mb-6'>
+              <h2 className='text-lg lg:text-2xl font-bold text-gray-900 dark:text-white'>
+                Price
+              </h2>
+            </div>
+            <p>{toilet.price}</p>
+          </div>
+        </div>
         <br />
-        {toilet.reviews.map((review: Review, index: number) => {
-          return (
-            <>
-              <p
-                key={index}
-                className='flex flex-col w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30'
-              >
-                <span>{review.contributedBy}</span>
-                <br />
-                <span>{review.cleanliness}</span>
-                <br />
-                <span>{review.performance}</span>
-                <br />
-                <span>{review.description}</span>
-              </p>
-              <button onClick={() => updateData({ ...review, password: '' })}>
-                Update
-              </button>
-              <button onClick={() => deleteData({ id: review.id })}>
-                Delete
-              </button>
-            </>
-          );
-        })}
+        <div className='w-3/5 bg-white dark:bg-gray-900 py-2 lg:py-4'>
+          <div className='max-w-2xl mx-auto px-4'>
+            <div className='flex justify-between items-center mb-6'>
+              <h2 className='text-lg lg:text-2xl font-bold text-gray-900 dark:text-white'>
+                Address
+              </h2>
+            </div>
+            <p>{`${params.streetNumber}, ${params.street}, ${params.city}, ${params.country}`}</p>
+          </div>
+        </div>
+        <br />
+        <section className='w-3/5 bg-white dark:bg-gray-900 py-8 lg:py-16 antialiased'>
+          <div className='max-w-2xl mx-auto px-4'>
+            <div className='flex justify-between items-center mb-6'>
+              <h2 className='text-lg lg:text-2xl font-bold text-gray-900 dark:text-white'>
+                Reviews
+              </h2>
+            </div>
+            {toilet.reviews.map((review: ReviewData, index: number) => {
+              return <Review key={index} review={review} />;
+            })}
+          </div>
+        </section>
       </div>
     </main>
   );

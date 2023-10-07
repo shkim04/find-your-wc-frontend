@@ -3,7 +3,7 @@ async function getToilets(country: string) {
     const res = await fetch('http://localhost:4000/graphql', {
       method: 'POST',
       body: JSON.stringify({
-        query: `{ toilets({country: "${country}"}) {
+        query: `{ toilets(country: "${country}") {
           id
           price
           isPaid
