@@ -3,7 +3,7 @@
 import { useRef } from 'react';
 import { experimental_useFormStatus as useFormStatus } from 'react-dom';
 
-import { deleteReview } from './action';
+import { deleteReview } from '../action';
 
 function ConfirmButton() {
   const { pending } = useFormStatus();

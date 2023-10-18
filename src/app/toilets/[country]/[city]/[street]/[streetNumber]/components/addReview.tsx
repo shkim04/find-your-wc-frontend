@@ -1,6 +1,6 @@
 'use client';
 import { useRef } from 'react';
-import { createReview } from './action';
+import { createReview } from '../action';
 
 export default function AddReview() {
   const emailRef = useRef<HTMLInputElement>(null);

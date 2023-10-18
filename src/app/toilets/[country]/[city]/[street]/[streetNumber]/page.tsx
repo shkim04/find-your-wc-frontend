@@ -21,7 +21,7 @@ interface ReviewData {
   createdAt: Date;
 }
 
-import Review from './reviewCard';
+import Review from './components/reviewCard';
 
 async function getToilet(address: AddressData): Promise<
   | {
