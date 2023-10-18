@@ -6,7 +6,7 @@ interface CityParams {
 async function getToilets(address: CityParams) {
   const { country, city } = address;
   try {
-    const res = await fetch('http://localhost:4000/graphql', {
+    const res = await fetch(`${process.env.API_URL}/graphql`, {
       method: 'POST',
       body: JSON.stringify({
         query: `{ toilets(

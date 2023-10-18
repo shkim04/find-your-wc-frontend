@@ -31,7 +31,7 @@ async function getToilet(address: AddressData): Promise<
 > {
   try {
     const { country, city, street, streetNumber } = address;
-    const res = await fetch('http://localhost:4000/graphql', {
+    const res = await fetch(`${process.env.API_URL}/graphql`, {
       method: 'POST',
       body: JSON.stringify({
         query: `{ toilet(

@@ -7,7 +7,7 @@ interface StreetParam {
 async function getToilets(address: StreetParam) {
   const { country, city, street } = address;
   try {
-    const res = await fetch('http://localhost:4000/graphql', {
+    const res = await fetch(`${process.env.API_URL}/graphql`, {
       method: 'POST',
       body: JSON.stringify({
         query: `{ toilets(

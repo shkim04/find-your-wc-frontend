@@ -8,7 +8,7 @@ export async function createReview(formData: FormData) {
   const performance = parseFloat(formData.get('performance') as string);
   const description = formData.get('description');
   try {
-    const res = await fetch('http://localhost:4000/graphql', {
+    const res = await fetch(`${process.env.API_URL}/graphql`, {
       method: 'POST',
       body: JSON.stringify({
         query: `mutation { createReview(
@@ -55,7 +55,7 @@ export async function updateReview(formData: FormData) {
   const description = formData.get('description');
 
   try {
-    const res = await fetch('http://localhost:4000/graphql', {
+    const res = await fetch(`${process.env.API_URL}/graphql`, {
       method: 'POST',
       body: JSON.stringify({
         query: `mutation { updateReview(
@@ -99,7 +99,7 @@ export async function deleteReview(formData: FormData) {
   const contributedBy = formData.get('contributedBy');
   const password = formData.get('password');
   try {
-    const res = await fetch('http://localhost:4000/graphql', {
+    const res = await fetch(`${process.env.API_URL}/graphql`, {
       method: 'POST',
       body: JSON.stringify({
         query: `mutation { deleteReview(
