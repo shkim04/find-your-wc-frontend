@@ -1,34 +1,16 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Find Your W.C. - Temporary Project Title
 
-## Getting Started
+## Description
+The idea of the project got started from some experience about toilets when I traveled. I believe that I am not the only one who urgently wanted to find a nice toilet, ideally free. If it is an emergency toilet situation, the trip will probably end up being a nightmare. 
 
-First, run the development server:
+So, I have been thinking that it would be amazing to have a place where people can share their experiences about toilets such as addresses, price, cleanliness and etc.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+This repository is particulary for the frontend of the application I am building.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Routes
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. main - www.findyourwc.dev - imaginary domain address
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+2. detail - www.findyourwc.dev/toielts/[country]/[city]/[street]/[streetNumber]
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+3. contribution - www.findyourwc.dev/contribute
